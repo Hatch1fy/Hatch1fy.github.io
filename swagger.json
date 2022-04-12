@@ -32,6 +32,16 @@
                 ],
                 "summary": "Trigger - Get Boards By Organization ID (Perform List)",
                 "operationId": "TriggerGetBoardsByOrganizationIDPerformList",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "example": 12345,
+                        "description": "Your Organization ID",
+                        "name": "organizationID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

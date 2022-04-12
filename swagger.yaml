@@ -481,6 +481,13 @@ paths:
     get:
       description: Fetches boards filtered by Organization ID
       operationId: TriggerGetBoardsByOrganizationIDPerformList
+      parameters:
+      - description: Your Organization ID
+        example: 12345
+        in: path
+        name: organizationID
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
