@@ -524,10 +524,17 @@ paths:
       summary: API Key Authentication
       tags:
       - Auth - API Key
+  /v1/zapier/:departmentID:
     post:
       description: Subscription endpoint
       operationId: Subscribe
       parameters:
+      - description: Your department id
+        example: 12345
+        in: path
+        name: departmentID
+        required: true
+        type: integer
       - description: 'Endpoint parameters:'
         in: body
         name: body
@@ -554,6 +561,13 @@ paths:
     delete:
       description: Unsubscribe endpoint
       operationId: Unsubscribe
+      parameters:
+      - description: Your Zapier Integration ID
+        example: 12345
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -647,6 +661,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/create_contact.ZapierOpportunity'
+      - description: Your Department ID
+        example: 12345
+        in: path
+        name: departmentID
+        required: true
+        type: integer
       produces:
       - application/json
       responses:

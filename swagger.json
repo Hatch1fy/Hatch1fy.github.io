@@ -86,7 +86,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/v1/zapier/:departmentID": {
             "post": {
                 "security": [
                     {
@@ -103,6 +105,14 @@
                 "summary": "Subscribe",
                 "operationId": "Subscribe",
                 "parameters": [
+                    {
+                        "type": "integer",
+                        "example": 12345,
+                        "description": "Your department id",
+                        "name": "departmentID",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "Endpoint parameters:",
                         "name": "body",
@@ -145,6 +155,16 @@
                 ],
                 "summary": "Unsubscribe",
                 "operationId": "Unsubscribe",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "example": 12345,
+                        "description": "Your Zapier Integration ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "204": {
                         "description": ""
@@ -288,6 +308,14 @@
                         "schema": {
                             "$ref": "#/definitions/create_contact.ZapierOpportunity"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "example": 12345,
+                        "description": "Your Department ID",
+                        "name": "departmentID",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
