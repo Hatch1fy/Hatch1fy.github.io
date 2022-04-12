@@ -1,0 +1,675 @@
+basePath: https://app.usehatchapp.com/api
+definitions:
+  auth_api_key.AuthFail:
+    properties:
+      data:
+        example: internal_server_error
+        type: string
+      errors:
+        example:
+        - invalid api key
+        items:
+          type: string
+        type: array
+    type: object
+  auth_api_key.AuthSuccess:
+    properties:
+      organization_token:
+        example: _YOUR_ORGANIZATION_ID_
+        type: string
+    type: object
+  create_contact.ContactResponse:
+    properties:
+      created:
+        type: boolean
+      id:
+        type: string
+    type: object
+  create_contact.NewOpportunityResponse:
+    properties:
+      contact:
+        $ref: '#/definitions/create_contact.ContactResponse'
+      opportunity:
+        $ref: '#/definitions/create_contact.OpportunityResponse'
+    type: object
+  create_contact.OpportunityResponse:
+    properties:
+      created:
+        type: boolean
+      id:
+        type: string
+    type: object
+  create_contact.ZapierOpportunity:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: string
+      lastName:
+        type: string
+      phoneNumber:
+        type: string
+      source:
+        example: zapier,something_other_than_zapier
+        type: string
+      status:
+        type: string
+    required:
+    - firstName
+    - lastName
+    type: object
+  create_contact.failResponse:
+    properties:
+      errors:
+        example:
+        - organization_not_found
+        items:
+          type: string
+        type: array
+    type: object
+  get_boards_by_organization_id.AfterHoursWithInheritance:
+    properties:
+      inheritFrom:
+        $ref: '#/definitions/get_boards_by_organization_id.InheritFrom'
+      sendSMS:
+        type: boolean
+      smsResponse:
+        type: string
+    type: object
+  get_boards_by_organization_id.BoardColumn:
+    properties:
+      boardID:
+        description: ID of the board who owns the column
+        type: string
+      contactIDs:
+        description: List of contact IDs
+        items:
+          type: string
+        type: array
+      id:
+        description: Column id
+        type: string
+      index:
+        description: Column index (where it's positioned on the salesboard)
+        type: integer
+      name:
+        description: Column name, the name associated with the column
+        type: string
+    type: object
+  get_boards_by_organization_id.BoardFeatures:
+    properties:
+      groups:
+        type: boolean
+      workflows:
+        type: boolean
+    type: object
+  get_boards_by_organization_id.BoardRecipient:
+    properties:
+      email:
+        type: boolean
+      mobilePush:
+        type: boolean
+      sms:
+        type: boolean
+      userID:
+        type: string
+    type: object
+  get_boards_by_organization_id.BoardTeamMember:
+    properties:
+      apps:
+        $ref: '#/definitions/get_boards_by_organization_id.SupportedApps'
+        description: Additional fields for partnerships
+      createdAt:
+        description: time of record creation
+        type: string
+      createdBy:
+        description: 'TODO: userID of creator/updater'
+        type: string
+      email:
+        type: string
+      firstName:
+        description: User's first name
+        type: string
+      icon:
+        description: Users icon
+        type: string
+      id:
+        description: Owner id (user id)
+        type: string
+      lastLoggedInAt:
+        type: string
+      lastName:
+        description: User's last name
+        type: string
+      notificationSettings:
+        $ref: '#/definitions/get_boards_by_organization_id.BoardRecipient'
+      pending:
+        description: User is pending
+        type: boolean
+      phoneNumber:
+        description: Users phone number
+        type: string
+      pushTokens:
+        items:
+          $ref: '#/definitions/get_boards_by_organization_id.PushToken'
+        type: array
+      role:
+        type: string
+      updatedAt:
+        description: time of last record update
+        type: string
+      updatedBy:
+        type: string
+      wherebyURL:
+        description: |-
+          Additional fields for partnerships, this data is going to eventually be migrated to it's
+          own controller. For now, it's going to be part of the profile. Pardon the temporary mess!
+          Note: I am not including omitempty for this field so that it is clear to the F/E team that
+          the value is intended to go here.
+          TODO: remove after migration is run to move this into Apps
+        type: string
+    type: object
+  get_boards_by_organization_id.BusinessHoursWithInheritance:
+    properties:
+      BusinessHours:
+        items:
+          $ref: '#/definitions/get_boards_by_organization_id.OpenTimePeriod'
+        type: array
+      inheritFrom:
+        $ref: '#/definitions/get_boards_by_organization_id.InheritFrom'
+    type: object
+  get_boards_by_organization_id.FullBoard:
+    properties:
+      afterHours:
+        $ref: '#/definitions/get_boards_by_organization_id.AfterHoursWithInheritance'
+      archived:
+        type: boolean
+      businessHours:
+        $ref: '#/definitions/get_boards_by_organization_id.BusinessHoursWithInheritance'
+      columns:
+        items:
+          $ref: '#/definitions/get_boards_by_organization_id.BoardColumn'
+        type: array
+      createdAt:
+        type: string
+      departmentIDs:
+        items:
+          type: string
+        type: array
+      email:
+        type: string
+      favoriteDetails:
+        items:
+          type: string
+        type: array
+      features:
+        $ref: '#/definitions/get_boards_by_organization_id.BoardFeatures'
+      forwardName:
+        type: string
+      forwardTo:
+        type: string
+      hosted:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      nickname:
+        type: string
+      organizationID:
+        type: string
+      phoneNumber:
+        type: string
+      recipients:
+        items:
+          $ref: '#/definitions/get_boards_by_organization_id.BoardRecipient'
+        type: array
+      teamMembers:
+        items:
+          $ref: '#/definitions/get_boards_by_organization_id.BoardTeamMember'
+        type: array
+      timezone:
+        $ref: '#/definitions/get_boards_by_organization_id.FullBoardTimezone'
+      unreadCount:
+        type: integer
+      updatedAt:
+        type: string
+      voicemailURL:
+        type: string
+    type: object
+  get_boards_by_organization_id.FullBoardTimezone:
+    properties:
+      observesDaylightSavings:
+        description: Whether or not this timezone observes daylight savings time
+        type: boolean
+      offsetHours:
+        description: OffsetHours is the timezone offset (in hours) east of UTC
+        type: integer
+      olsonDBName:
+        description: OlsonDBName is the name of the Olson DB timezone name
+        type: string
+    type: object
+  get_boards_by_organization_id.InheritFrom:
+    properties:
+      boardID:
+        type: string
+      organizationID:
+        type: string
+    type: object
+  get_boards_by_organization_id.OpenTimePeriod:
+    properties:
+      close:
+        $ref: '#/definitions/get_boards_by_organization_id.TimeOfWeek'
+      open:
+        $ref: '#/definitions/get_boards_by_organization_id.TimeOfWeek'
+    type: object
+  get_boards_by_organization_id.PushToken:
+    properties:
+      token:
+        type: string
+    type: object
+  get_boards_by_organization_id.SupportedApps:
+    properties:
+      hearthURL:
+        description: 'TODO: Evaluate potential to drive this from a toml file?'
+        type: string
+      wherebyURL:
+        type: string
+    type: object
+  get_boards_by_organization_id.TimeOfWeek:
+    properties:
+      day:
+        type: integer
+      hour:
+        type: integer
+      minute:
+        type: integer
+      nanos:
+        type: integer
+      second:
+        type: integer
+    type: object
+  get_boards_by_organization_id.failResponse:
+    properties:
+      errors:
+        example:
+        - organization_not_found
+        items:
+          type: string
+        type: array
+    type: object
+  models.AuthFail:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+      string:
+        type: string
+    type: object
+  models.NewIntegrationFailResponse:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
+  models.PushComm:
+    properties:
+      attachmentURLs:
+        description: Attachment URLs are attached media (emails and MMS)
+        items:
+          type: string
+        type: array
+      boardName:
+        type: string
+      boardURL:
+        type: string
+      communicationTransportType:
+        description: '"sms" or "email"'
+        type: string
+      contactID:
+        type: string
+      createdAt:
+        description: time of record creation
+        type: string
+      createdBy:
+        description: 'TODO: userID of creator/updater'
+        type: string
+      emailSubject:
+        type: string
+      externalContactID:
+        type: string
+      externalContactInfo:
+        description: phone or email string
+        type: string
+      externalOppID:
+        type: string
+      externalUserFirstName:
+        description: '"Joe"'
+        type: string
+      externalUserLastName:
+        description: '"Smith"'
+        type: string
+      hatchUserFullName:
+        type: string
+      hatchUserID:
+        type: string
+      id:
+        type: string
+      inbound:
+        type: boolean
+      messageTime:
+        type: string
+      sanitizedBody:
+        type: string
+      updatedAt:
+        description: time of last record update
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  new_contact.Opportunity:
+    properties:
+      campaignID:
+        description: CampaignID associated with the opportunity
+        type: string
+      contactID:
+        description: ContactID is the associated Hatch contact ID for the opportunity
+        type: string
+      createdAt:
+        description: time of record creation
+        type: string
+      createdBy:
+        description: 'TODO: userID of creator/updater'
+        type: string
+      departmentID:
+        description: DepartmentID is the associated department ID for the opportunity
+        type: string
+      details:
+        additionalProperties: true
+        description: Details are the misc fields provided by the CRM
+        type: object
+      email:
+        description: Contact email address for opportunity
+        type: string
+      externalContactID:
+        description: ExternalContactID is the CRM contact id for the opportunity
+        type: string
+      externalCreatedAt:
+        description: |-
+          ExternalCreatedAt is a Unix timestamp for the created timestamp in the external CRM
+          Note: If the opportunity was created internally, this value will be unset
+        type: string
+      externalID:
+        description: ExternalID is the CRM id for the opportunity
+        type: string
+      externalUpdatedAt:
+        description: |-
+          ExternalUpdatedAt is a Unix timestamp for the updated timestamp in the external CRM
+          Note: If the opportunity was created internally, this value will be unset
+        type: string
+      firstName:
+        description: First name of opportunity
+        type: string
+      id:
+        description: ID is our internal id for the opportunity
+        type: string
+      lastName:
+        description: Last name of opportunity
+        type: string
+      phoneNumber:
+        description: Contact phone number for opportunity
+        type: string
+      source:
+        description: Source is the source of the opportunity (e.g. CSV import, Salesforce,
+          etc)
+        type: string
+      status:
+        description: Status is the CRM status for the opportunity
+        type: string
+      updatedAt:
+        description: time of last record update
+        type: string
+      updatedBy:
+        type: string
+    type: object
+  subscribe_unsubscribe.subscribe:
+    properties:
+      createContactZapID:
+        enum:
+        - __UNIQUE_ZAP_ID__
+        example: Zap ID
+        type: string
+      createContactZapURL:
+        enum:
+        - https://zapier.com/hooks/standard/__UNIQUE_ZAP_ID__/__UNIQUE_ZAP_ID__/
+        example: Zap URL
+        type: string
+      type:
+        enum:
+        - New Contact
+        - New Communication Outbound
+        - New Communication Inbound
+        example: New Contact
+        type: string
+    type: object
+  subscribe_unsubscribe.subscribeResponse:
+    properties:
+      createContactZapID:
+        type: string
+      createContactZapURL:
+        type: string
+      id:
+        type: string
+    type: object
+info:
+  contact:
+    email: your@mail.com
+    name: API Support
+  description: This is an auto-generated API Docs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: API
+  version: "1.0"
+paths:
+  /api/boards/byOrganization/:organizationID:
+    get:
+      description: Fetches boards filtered by Organization ID
+      operationId: TriggerGetBoardsByOrganizationIDPerformList
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/get_boards_by_organization_id.FullBoard'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/get_boards_by_organization_id.failResponse'
+      security:
+      - HatchZapierAuth: []
+      summary: Trigger - Get Boards By Organization ID (Perform List)
+      tags:
+      - Trigger - Get Boards By Organization ID
+  /v1/organizationToken/auth:
+    get:
+      description: Hatch uses Zapier's "API Key" authentication protocol.
+      operationId: AuthZapier
+      parameters:
+      - description: API Key
+        example: _YOUR_API_KEY_
+        in: header
+        name: X-API-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth_api_key.AuthSuccess'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/auth_api_key.AuthFail'
+      summary: API Key Authentication
+      tags:
+      - Auth - API Key
+    post:
+      description: Subscription endpoint
+      operationId: Subscribe
+      parameters:
+      - description: 'Endpoint parameters:'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/subscribe_unsubscribe.subscribe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/subscribe_unsubscribe.subscribeResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.AuthFail'
+      security:
+      - HatchZapierAuth: []
+      summary: Subscribe
+      tags:
+      - Trigger - Subscribe / Unsubscribe
+  /v1/zapier/:id:
+    delete:
+      description: Unsubscribe endpoint
+      operationId: Unsubscribe
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.NewIntegrationFailResponse'
+      security:
+      - HatchZapierAuth: []
+      summary: Unsubscribe
+      tags:
+      - Trigger - Subscribe / Unsubscribe
+  /v1/zapier/examples/contact:
+    get:
+      description: Fetches an example payload
+      operationId: TriggerNewContactPerformList
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/new_contact.Opportunity'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.AuthFail'
+      security:
+      - HatchZapierAuth: []
+      summary: Trigger - New Contact (Perform List)
+      tags:
+      - Trigger - New Contact
+  /v1/zapier/examples/newCommunicationInbound:
+    get:
+      description: Fetches an example payload
+      operationId: TriggerNewCommunicationInboundPerformList
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.PushComm'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.AuthFail'
+      security:
+      - HatchZapierAuth: []
+      summary: Trigger - New Communication Inbound (Perform List)
+      tags:
+      - Trigger - New Communication Inbound
+  /v1/zapier/examples/newCommunicationOutbound:
+    get:
+      description: Fetches an example payload
+      operationId: TriggerNewCommunicationOutboundPerformList
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.PushComm'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.AuthFail'
+      security:
+      - HatchZapierAuth: []
+      summary: Trigger - New Communication Outbound (Perform List)
+      tags:
+      - Trigger - New Communication Outbound
+  /webhooks/:departmentID/zapier:
+    post:
+      description: |-
+        Creates a new Contact (opportunity) on your selected Zapier board.
+        You must provide either "email" or "phone number", as both are "either/or" required fields as well.
+      operationId: CreateContact
+      parameters:
+      - description: 'Endpoint parameters:'
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/create_contact.ZapierOpportunity'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/create_contact.NewOpportunityResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/create_contact.failResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/create_contact.failResponse'
+      security:
+      - HatchZapierAuth: []
+      summary: Create contact
+      tags:
+      - Action - New Contact
+securityDefinitions:
+  HatchZapierAuth:
+    in: header
+    name: X-API-KEY
+    type: apiKey
+swagger: "2.0"

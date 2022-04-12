@@ -1,0 +1,993 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is an auto-generated API Docs.",
+        "title": "API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "email": "your@mail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "basePath": "https://app.usehatchapp.com/api",
+    "paths": {
+        "/api/boards/byOrganization/:organizationID": {
+            "get": {
+                "security": [
+                    {
+                        "HatchZapierAuth": []
+                    }
+                ],
+                "description": "Fetches boards filtered by Organization ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trigger - Get Boards By Organization ID"
+                ],
+                "summary": "Trigger - Get Boards By Organization ID (Perform List)",
+                "operationId": "TriggerGetBoardsByOrganizationIDPerformList",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/get_boards_by_organization_id.FullBoard"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/get_boards_by_organization_id.failResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/organizationToken/auth": {
+            "get": {
+                "description": "Hatch uses Zapier's \"API Key\" authentication protocol.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth - API Key"
+                ],
+                "summary": "API Key Authentication",
+                "operationId": "AuthZapier",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "example": "_YOUR_API_KEY_",
+                        "description": "API Key",
+                        "name": "X-API-KEY",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/auth_api_key.AuthSuccess"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/auth_api_key.AuthFail"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "HatchZapierAuth": []
+                    }
+                ],
+                "description": "Subscription endpoint",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trigger - Subscribe / Unsubscribe"
+                ],
+                "summary": "Subscribe",
+                "operationId": "Subscribe",
+                "parameters": [
+                    {
+                        "description": "Endpoint parameters:",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/subscribe_unsubscribe.subscribe"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/subscribe_unsubscribe.subscribeResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.AuthFail"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/zapier/:id": {
+            "delete": {
+                "security": [
+                    {
+                        "HatchZapierAuth": []
+                    }
+                ],
+                "description": "Unsubscribe endpoint",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trigger - Subscribe / Unsubscribe"
+                ],
+                "summary": "Unsubscribe",
+                "operationId": "Unsubscribe",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.NewIntegrationFailResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/zapier/examples/contact": {
+            "get": {
+                "security": [
+                    {
+                        "HatchZapierAuth": []
+                    }
+                ],
+                "description": "Fetches an example payload",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trigger - New Contact"
+                ],
+                "summary": "Trigger - New Contact (Perform List)",
+                "operationId": "TriggerNewContactPerformList",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/new_contact.Opportunity"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.AuthFail"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/zapier/examples/newCommunicationInbound": {
+            "get": {
+                "security": [
+                    {
+                        "HatchZapierAuth": []
+                    }
+                ],
+                "description": "Fetches an example payload",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trigger - New Communication Inbound"
+                ],
+                "summary": "Trigger - New Communication Inbound (Perform List)",
+                "operationId": "TriggerNewCommunicationInboundPerformList",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.PushComm"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.AuthFail"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/zapier/examples/newCommunicationOutbound": {
+            "get": {
+                "security": [
+                    {
+                        "HatchZapierAuth": []
+                    }
+                ],
+                "description": "Fetches an example payload",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trigger - New Communication Outbound"
+                ],
+                "summary": "Trigger - New Communication Outbound (Perform List)",
+                "operationId": "TriggerNewCommunicationOutboundPerformList",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.PushComm"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.AuthFail"
+                        }
+                    }
+                }
+            }
+        },
+        "/webhooks/:departmentID/zapier": {
+            "post": {
+                "security": [
+                    {
+                        "HatchZapierAuth": []
+                    }
+                ],
+                "description": "Creates a new Contact (opportunity) on your selected Zapier board.\nYou must provide either \"email\" or \"phone number\", as both are \"either/or\" required fields as well.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Action - New Contact"
+                ],
+                "summary": "Create contact",
+                "operationId": "CreateContact",
+                "parameters": [
+                    {
+                        "description": "Endpoint parameters:",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/create_contact.ZapierOpportunity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/create_contact.NewOpportunityResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/create_contact.failResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/create_contact.failResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "auth_api_key.AuthFail": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "internal_server_error"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "invalid api key"
+                    ]
+                }
+            }
+        },
+        "auth_api_key.AuthSuccess": {
+            "type": "object",
+            "properties": {
+                "organization_token": {
+                    "type": "string",
+                    "example": "_YOUR_ORGANIZATION_ID_"
+                }
+            }
+        },
+        "create_contact.ContactResponse": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "create_contact.NewOpportunityResponse": {
+            "type": "object",
+            "properties": {
+                "contact": {
+                    "$ref": "#/definitions/create_contact.ContactResponse"
+                },
+                "opportunity": {
+                    "$ref": "#/definitions/create_contact.OpportunityResponse"
+                }
+            }
+        },
+        "create_contact.OpportunityResponse": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "create_contact.ZapierOpportunity": {
+            "type": "object",
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string",
+                    "example": "zapier,something_other_than_zapier"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "create_contact.failResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "organization_not_found"
+                    ]
+                }
+            }
+        },
+        "get_boards_by_organization_id.AfterHoursWithInheritance": {
+            "type": "object",
+            "properties": {
+                "inheritFrom": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.InheritFrom"
+                },
+                "sendSMS": {
+                    "type": "boolean"
+                },
+                "smsResponse": {
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.BoardColumn": {
+            "type": "object",
+            "properties": {
+                "boardID": {
+                    "description": "ID of the board who owns the column",
+                    "type": "string"
+                },
+                "contactIDs": {
+                    "description": "List of contact IDs",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "description": "Column id",
+                    "type": "string"
+                },
+                "index": {
+                    "description": "Column index (where it's positioned on the salesboard)",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Column name, the name associated with the column",
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.BoardFeatures": {
+            "type": "object",
+            "properties": {
+                "groups": {
+                    "type": "boolean"
+                },
+                "workflows": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "get_boards_by_organization_id.BoardRecipient": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "boolean"
+                },
+                "mobilePush": {
+                    "type": "boolean"
+                },
+                "sms": {
+                    "type": "boolean"
+                },
+                "userID": {
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.BoardTeamMember": {
+            "type": "object",
+            "properties": {
+                "apps": {
+                    "description": "Additional fields for partnerships",
+                    "$ref": "#/definitions/get_boards_by_organization_id.SupportedApps"
+                },
+                "createdAt": {
+                    "description": "time of record creation",
+                    "type": "string"
+                },
+                "createdBy": {
+                    "description": "TODO: userID of creator/updater",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "description": "User's first name",
+                    "type": "string"
+                },
+                "icon": {
+                    "description": "Users icon",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Owner id (user id)",
+                    "type": "string"
+                },
+                "lastLoggedInAt": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "description": "User's last name",
+                    "type": "string"
+                },
+                "notificationSettings": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.BoardRecipient"
+                },
+                "pending": {
+                    "description": "User is pending",
+                    "type": "boolean"
+                },
+                "phoneNumber": {
+                    "description": "Users phone number",
+                    "type": "string"
+                },
+                "pushTokens": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/get_boards_by_organization_id.PushToken"
+                    }
+                },
+                "role": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "description": "time of last record update",
+                    "type": "string"
+                },
+                "updatedBy": {
+                    "type": "string"
+                },
+                "wherebyURL": {
+                    "description": "Additional fields for partnerships, this data is going to eventually be migrated to it's\nown controller. For now, it's going to be part of the profile. Pardon the temporary mess!\nNote: I am not including omitempty for this field so that it is clear to the F/E team that\nthe value is intended to go here.\nTODO: remove after migration is run to move this into Apps",
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.BusinessHoursWithInheritance": {
+            "type": "object",
+            "properties": {
+                "BusinessHours": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/get_boards_by_organization_id.OpenTimePeriod"
+                    }
+                },
+                "inheritFrom": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.InheritFrom"
+                }
+            }
+        },
+        "get_boards_by_organization_id.FullBoard": {
+            "type": "object",
+            "properties": {
+                "afterHours": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.AfterHoursWithInheritance"
+                },
+                "archived": {
+                    "type": "boolean"
+                },
+                "businessHours": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.BusinessHoursWithInheritance"
+                },
+                "columns": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/get_boards_by_organization_id.BoardColumn"
+                    }
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "departmentIDs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "email": {
+                    "type": "string"
+                },
+                "favoriteDetails": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "features": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.BoardFeatures"
+                },
+                "forwardName": {
+                    "type": "string"
+                },
+                "forwardTo": {
+                    "type": "string"
+                },
+                "hosted": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "organizationID": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "recipients": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/get_boards_by_organization_id.BoardRecipient"
+                    }
+                },
+                "teamMembers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/get_boards_by_organization_id.BoardTeamMember"
+                    }
+                },
+                "timezone": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.FullBoardTimezone"
+                },
+                "unreadCount": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "voicemailURL": {
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.FullBoardTimezone": {
+            "type": "object",
+            "properties": {
+                "observesDaylightSavings": {
+                    "description": "Whether or not this timezone observes daylight savings time",
+                    "type": "boolean"
+                },
+                "offsetHours": {
+                    "description": "OffsetHours is the timezone offset (in hours) east of UTC",
+                    "type": "integer"
+                },
+                "olsonDBName": {
+                    "description": "OlsonDBName is the name of the Olson DB timezone name",
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.InheritFrom": {
+            "type": "object",
+            "properties": {
+                "boardID": {
+                    "type": "string"
+                },
+                "organizationID": {
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.OpenTimePeriod": {
+            "type": "object",
+            "properties": {
+                "close": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.TimeOfWeek"
+                },
+                "open": {
+                    "$ref": "#/definitions/get_boards_by_organization_id.TimeOfWeek"
+                }
+            }
+        },
+        "get_boards_by_organization_id.PushToken": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.SupportedApps": {
+            "type": "object",
+            "properties": {
+                "hearthURL": {
+                    "description": "TODO: Evaluate potential to drive this from a toml file?",
+                    "type": "string"
+                },
+                "wherebyURL": {
+                    "type": "string"
+                }
+            }
+        },
+        "get_boards_by_organization_id.TimeOfWeek": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "hour": {
+                    "type": "integer"
+                },
+                "minute": {
+                    "type": "integer"
+                },
+                "nanos": {
+                    "type": "integer"
+                },
+                "second": {
+                    "type": "integer"
+                }
+            }
+        },
+        "get_boards_by_organization_id.failResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "organization_not_found"
+                    ]
+                }
+            }
+        },
+        "models.AuthFail": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "string": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.NewIntegrationFailResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.PushComm": {
+            "type": "object",
+            "properties": {
+                "attachmentURLs": {
+                    "description": "Attachment URLs are attached media (emails and MMS)",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "boardName": {
+                    "type": "string"
+                },
+                "boardURL": {
+                    "type": "string"
+                },
+                "communicationTransportType": {
+                    "description": "\"sms\" or \"email\"",
+                    "type": "string"
+                },
+                "contactID": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "description": "time of record creation",
+                    "type": "string"
+                },
+                "createdBy": {
+                    "description": "TODO: userID of creator/updater",
+                    "type": "string"
+                },
+                "emailSubject": {
+                    "type": "string"
+                },
+                "externalContactID": {
+                    "type": "string"
+                },
+                "externalContactInfo": {
+                    "description": "phone or email string",
+                    "type": "string"
+                },
+                "externalOppID": {
+                    "type": "string"
+                },
+                "externalUserFirstName": {
+                    "description": "\"Joe\"",
+                    "type": "string"
+                },
+                "externalUserLastName": {
+                    "description": "\"Smith\"",
+                    "type": "string"
+                },
+                "hatchUserFullName": {
+                    "type": "string"
+                },
+                "hatchUserID": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "inbound": {
+                    "type": "boolean"
+                },
+                "messageTime": {
+                    "type": "string"
+                },
+                "sanitizedBody": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "description": "time of last record update",
+                    "type": "string"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            }
+        },
+        "new_contact.Opportunity": {
+            "type": "object",
+            "properties": {
+                "campaignID": {
+                    "description": "CampaignID associated with the opportunity",
+                    "type": "string"
+                },
+                "contactID": {
+                    "description": "ContactID is the associated Hatch contact ID for the opportunity",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "description": "time of record creation",
+                    "type": "string"
+                },
+                "createdBy": {
+                    "description": "TODO: userID of creator/updater",
+                    "type": "string"
+                },
+                "departmentID": {
+                    "description": "DepartmentID is the associated department ID for the opportunity",
+                    "type": "string"
+                },
+                "details": {
+                    "description": "Details are the misc fields provided by the CRM",
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "email": {
+                    "description": "Contact email address for opportunity",
+                    "type": "string"
+                },
+                "externalContactID": {
+                    "description": "ExternalContactID is the CRM contact id for the opportunity",
+                    "type": "string"
+                },
+                "externalCreatedAt": {
+                    "description": "ExternalCreatedAt is a Unix timestamp for the created timestamp in the external CRM\nNote: If the opportunity was created internally, this value will be unset",
+                    "type": "string"
+                },
+                "externalID": {
+                    "description": "ExternalID is the CRM id for the opportunity",
+                    "type": "string"
+                },
+                "externalUpdatedAt": {
+                    "description": "ExternalUpdatedAt is a Unix timestamp for the updated timestamp in the external CRM\nNote: If the opportunity was created internally, this value will be unset",
+                    "type": "string"
+                },
+                "firstName": {
+                    "description": "First name of opportunity",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "ID is our internal id for the opportunity",
+                    "type": "string"
+                },
+                "lastName": {
+                    "description": "Last name of opportunity",
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "description": "Contact phone number for opportunity",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "Source is the source of the opportunity (e.g. CSV import, Salesforce, etc)",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Status is the CRM status for the opportunity",
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "description": "time of last record update",
+                    "type": "string"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            }
+        },
+        "subscribe_unsubscribe.subscribe": {
+            "type": "object",
+            "properties": {
+                "createContactZapID": {
+                    "type": "string",
+                    "enum": [
+                        "__UNIQUE_ZAP_ID__"
+                    ],
+                    "example": "Zap ID"
+                },
+                "createContactZapURL": {
+                    "type": "string",
+                    "enum": [
+                        "https://zapier.com/hooks/standard/__UNIQUE_ZAP_ID__/__UNIQUE_ZAP_ID__/"
+                    ],
+                    "example": "Zap URL"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "New Contact",
+                        "New Communication Outbound",
+                        "New Communication Inbound"
+                    ],
+                    "example": "New Contact"
+                }
+            }
+        },
+        "subscribe_unsubscribe.subscribeResponse": {
+            "type": "object",
+            "properties": {
+                "createContactZapID": {
+                    "type": "string"
+                },
+                "createContactZapURL": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "HatchZapierAuth": {
+            "type": "apiKey",
+            "name": "X-API-KEY",
+            "in": "header"
+        }
+    }
+}
