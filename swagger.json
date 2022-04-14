@@ -422,6 +422,9 @@
                 "email": {
                     "type": "string"
                 },
+                "external_id": {
+                    "type": "string"
+                },
                 "firstName": {
                     "type": "string"
                 },
